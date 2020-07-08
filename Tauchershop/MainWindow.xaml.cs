@@ -44,25 +44,29 @@ namespace Tauchershop
             Dlg = new DialogAnsichtArtikel();
             Dlg.ShowDialog();
         }
-
         private void MenuItemAnsichtAuftraege_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogAnsichtArtikel Dlg;
+            Dlg = new DialogAnsichtArtikel();
+            Dlg.ShowDialog();
         }
-
         private void MenuItemAnsichtKunden_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogAnsichtKunde Dlg;
+            Dlg = new DialogAnsichtKunde();
+            Dlg.ShowDialog();
         }
-
         private void MenuItemAnsichtLiferanten_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogAnsichtLieferanten Dlg;
+            Dlg = new DialogAnsichtLieferanten();
+            Dlg.ShowDialog();
         }
-
         private void MenuItemAnsichtMitarbeiter_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogAnsichtMitarbeiter Dlg;
+            Dlg = new DialogAnsichtMitarbeiter();
+            Dlg.ShowDialog();
         }
         #endregion
     }

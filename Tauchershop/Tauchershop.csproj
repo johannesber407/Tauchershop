@@ -84,6 +84,15 @@
     <Compile Include="DialogAnsichtArtikel.xaml.cs">
       <DependentUpon>DialogAnsichtArtikel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogAnsichtKunde.xaml.cs">
+      <DependentUpon>DialogAnsichtKunde.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogAnsichtLieferanten.xaml.cs">
+      <DependentUpon>DialogAnsichtLieferanten.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogAnsichtMitarbeiter.xaml.cs">
+      <DependentUpon>DialogAnsichtMitarbeiter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="TauchShopDataSet.cs">
       <DependentUpon>TauchShopDataSet.xsd</DependentUpon>
@@ -94,6 +103,18 @@
       <DependentUpon>TauchShopDataSet.xsd</DependentUpon>
     </Compile>
     <Page Include="DialogAnsichtArtikel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogAnsichtKunde.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogAnsichtLieferanten.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogAnsichtMitarbeiter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

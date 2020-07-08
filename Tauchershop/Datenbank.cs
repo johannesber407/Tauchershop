@@ -5,26 +5,22 @@ using System.Windows;
 using System.Windows.Data;
 using Tauchershop;
 using Tauchershop.TauchShopDataSetTableAdapters;
-//using TauchShop.TauchShopDataSetTableAdapters;
 
 namespace TauchShop
 {
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Class TDatenbank
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class TDatenbank : DependencyObject
     {
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private static TauchShopDataSet Datenbank;
         private static ArtikelTableAdapter AdapterArtikel;
-        //private static KundenTableAdapter AdapterKunden;
-        //private static LieferantenTableAdapter AdapterLieferanten;
-        //private static MitarbeiterTableAdapter AdapterMitarbeiter;
-        //private static AuftraegeTableAdapter AdapterAuftraege;
-        //private static PositionenTableAdapter AdapterPositionen;
+        private static KundenTableAdapter AdapterKunden;
+        private static LieferantenTableAdapter AdapterLieferanten;
+        private static MitarbeiterTableAdapter AdapterMitarbeiter;
+        private static AuftraegeTableAdapter AdapterAuftraege;
+        private static PositionenTableAdapter AdapterPositionen;
         private static DataView DataViewArtikel, DataViewKunden, DataViewLieferanten, DataViewMitarbeiter, DataViewAuftraege, DataViewPositionen;
         private static bool Initialisiert = false;
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
         public TDatenbank()
         {
             if (!Initialisiert)
@@ -33,7 +29,6 @@ namespace TauchShop
                 Initialisiert = true;
             }
         }
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private void InitialisiereDatenbank()
         {
             OleDbConnection Verbindung;
@@ -45,30 +40,30 @@ namespace TauchShop
             AdapterArtikel.Fill(Datenbank.Artikel);
             DataViewArtikel = Datenbank.Artikel.DefaultView;
 
-            //AdapterKunden = new KundenTableAdapter();
-            //AdapterKunden.Connection = Verbindung;
-            //AdapterKunden.Fill(Datenbank.Kunden);
-            //DataViewKunden = Datenbank.Kunden.DefaultView;
+            AdapterKunden = new KundenTableAdapter();
+            AdapterKunden.Connection = Verbindung;
+            AdapterKunden.Fill(Datenbank.Kunden);
+            DataViewKunden = Datenbank.Kunden.DefaultView;
 
-            //AdapterLieferanten = new LieferantenTableAdapter();
-            //AdapterLieferanten.Connection = Verbindung;
-            //AdapterLieferanten.Fill(Datenbank.Lieferanten);
-            //DataViewLieferanten = Datenbank.Lieferanten.DefaultView;
+            AdapterLieferanten = new LieferantenTableAdapter();
+            AdapterLieferanten.Connection = Verbindung;
+            AdapterLieferanten.Fill(Datenbank.Lieferanten);
+            DataViewLieferanten = Datenbank.Lieferanten.DefaultView;
 
-            //AdapterMitarbeiter = new MitarbeiterTableAdapter();
-            //AdapterMitarbeiter.Connection = Verbindung;
-            //AdapterMitarbeiter.Fill(Datenbank.Mitarbeiter);
-            //DataViewMitarbeiter = Datenbank.Mitarbeiter.DefaultView;
+            AdapterMitarbeiter = new MitarbeiterTableAdapter();
+            AdapterMitarbeiter.Connection = Verbindung;
+            AdapterMitarbeiter.Fill(Datenbank.Mitarbeiter);
+            DataViewMitarbeiter = Datenbank.Mitarbeiter.DefaultView;
 
-            //AdapterAuftraege = new AuftraegeTableAdapter();
-            //AdapterAuftraege.Connection = Verbindung;
-            //AdapterAuftraege.Fill(Datenbank.Auftraege);
-            //DataViewAuftraege = Datenbank.Auftraege.DefaultView;
+            AdapterAuftraege = new AuftraegeTableAdapter();
+            AdapterAuftraege.Connection = Verbindung;
+            AdapterAuftraege.Fill(Datenbank.Auftraege);
+            DataViewAuftraege = Datenbank.Auftraege.DefaultView;
 
-            //AdapterPositionen = new PositionenTableAdapter();
-            //AdapterPositionen.Connection = Verbindung;
-            //AdapterPositionen.Fill(Datenbank.Positionen);
-            //DataViewPositionen = Datenbank.Positionen.DefaultView;
+            AdapterPositionen = new PositionenTableAdapter();
+            AdapterPositionen.Connection = Verbindung;
+            AdapterPositionen.Fill(Datenbank.Positionen);
+            DataViewPositionen = Datenbank.Positionen.DefaultView;
         }
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private string ConnectionString()

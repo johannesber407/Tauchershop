@@ -15,36 +15,46 @@ using System.Windows.Shapes;
 namespace Tauchershop
 {
     /// <summary>
-    /// Interaction logic for DialogAnsichtArtikel.xaml
+    /// Interaction logic for DialogAnsichtMitarbeiter.xaml
     /// </summary>
-    public partial class DialogAnsichtArtikel : Window
+    public partial class DialogAnsichtMitarbeiter : Window
     {
-        public DialogAnsichtArtikel()
+        public DialogAnsichtMitarbeiter()
         {
             InitializeComponent();
             FocusManager.SetFocusedElement(this, DataGridTabelle);
             ButtonErster_Click(null, null);
         }
+
+        private void DataGridTabelle_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            AktualisiereAnsicht();
+        }
+
         private void ButtonErster_Click(object sender, RoutedEventArgs e)
         {
             DataGridTabelle.SelectedIndex = 0;
             AktualisiereAnsicht();
         }
+
         private void ButtonVoriger_Click(object sender, RoutedEventArgs e)
         {
             DataGridTabelle.SelectedIndex--;
             AktualisiereAnsicht();
         }
+
         private void ButtonNaechster_Click(object sender, RoutedEventArgs e)
         {
             DataGridTabelle.SelectedIndex++;
             AktualisiereAnsicht();
         }
+
         private void ButtonLetzter_Click(object sender, RoutedEventArgs e)
         {
             DataGridTabelle.SelectedIndex = DataGridTabelle.Items.Count - 1;
             AktualisiereAnsicht();
         }
+
         private void SetzeNavigationsButton(Button NavigationsButton, bool Aktiv)
         {
             NavigationsButton.IsEnabled = Aktiv;
@@ -57,32 +67,22 @@ namespace Tauchershop
                 ((Image)(NavigationsButton.Content)).Opacity = 0.5;
             }
         }
+
         private void AktualisiereAnsicht()
         {
             int Index;
             Index = DataGridTabelle.SelectedIndex;
-            // Fokus
+
             FocusManager.SetFocusedElement(this, DataGridTabelle);
 
-            MessageBox.Show(Index.ToString());
-
-            // ScrollBar
             DataGridTabelle.ScrollIntoView(DataGridTabelle.SelectedItem);
-            // Buttons
+
             SetzeNavigationsButton(ButtonErster, DataGridTabelle.SelectedIndex > 0);
             SetzeNavigationsButton(ButtonVoriger, DataGridTabelle.SelectedIndex > 0);
-            SetzeNavigationsButton(ButtonNaechster,
-            DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
-            SetzeNavigationsButton(ButtonLetzter,
-            DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
-            // Beschriftung
-            LabelDatensatz.Content = "Datensatz " + (DataGridTabelle.SelectedIndex + 1).ToString()
-            + " von " + DataGridTabelle.Items.Count.ToString();
-        }
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        private void DataGridTabelle_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            AktualisiereAnsicht();
+            SetzeNavigationsButton(ButtonNaechster, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
+            SetzeNavigationsButton(ButtonLetzter, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
+
+            LabelDatensatz.Content = "Datensatz " + (DataGridTabelle.SelectedIndex + 1).ToString() + " von " + DataGridTabelle.Items.Count.ToString();
         }
     }
 }
