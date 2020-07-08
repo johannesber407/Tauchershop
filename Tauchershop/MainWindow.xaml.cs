@@ -24,5 +24,44 @@ namespace Tauchershop
         {
             InitializeComponent();
         }
+        private void MenuItemBeenden_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+
+        #region MenuItemNeuerAuftrag
+        private void MenuItemNeuerAuftrag_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region MenuItemAnsichten
+        private void MenuItemAnsichtArtikel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemAnsichtAuftraege_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemAnsichtKunden_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemAnsichtLiferanten_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemAnsichtMitarbeiter_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tauchershop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tauch-Shop" MinHeight="400" MinWidth="400" WindowState="Maximized">
     <Grid>
-        
+        <Menu>
+            <MenuItem Header="Datei">
+                <MenuItem Header="Beenden" Name="MenuItemBeenden" Click="MenuItemBeenden_Click"/>
+            </MenuItem>
+            <MenuItem Header="Bearbeiten">
+                <MenuItem Header="Neuer Auftag" Name="MenuItemNeuerAuftrag" Click="MenuItemNeuerAuftrag_Click"/>
+            </MenuItem>
+            <MenuItem Header="Ansicht">
+                <MenuItem Header="Artikel" Name="MenuItemAnsichtArtikel" Click="MenuItemAnsichtArtikel_Click"/>
+                <MenuItem Header="Auftraege" Name="MenuItemAnsichtAuftraege" Click="MenuItemAnsichtAuftraege_Click"/>
+                <MenuItem Header="Kunden" Name="MenuItemAnsichtKunden" Click="MenuItemAnsichtKunden_Click"/>
+                <MenuItem Header="Lieferanten" Name="MenuItemAnsichtLiferanten" Click="MenuItemAnsichtLiferanten_Click"/>
+                <MenuItem Header="Mitarbeiter" Name="MenuItemAnsichtMitarbeiter" Click="MenuItemAnsichtMitarbeiter_Click"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
