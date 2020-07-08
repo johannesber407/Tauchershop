@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Tauchershop"
         mc:Ignorable="d"
         Title="Tauch-Shop" MinHeight="400" MinWidth="400" WindowState="Maximized">
-    <Grid>
-        <Menu>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="Datei">
                 <MenuItem Header="Beenden" Name="MenuItemBeenden" Click="MenuItemBeenden_Click"/>
             </MenuItem>
@@ -22,5 +22,6 @@
                 <MenuItem Header="Mitarbeiter" Name="MenuItemAnsichtMitarbeiter" Click="MenuItemAnsichtMitarbeiter_Click"/>
             </MenuItem>
         </Menu>
-    </Grid>
+        <StackPanel/>
+    </DockPanel>
 </Window>

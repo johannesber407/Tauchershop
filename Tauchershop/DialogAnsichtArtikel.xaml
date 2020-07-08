@@ -1,0 +1,57 @@
+﻿<Window x:Class="Tauchershop.DialogAnsichtArtikel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tauchershop"
+        mc:Ignorable="d"
+        Title="DialogAnsichtArtikel" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="Datenbank" ObjectType="{x:Type local:TDatenbank}"/>
+        <ObjectDataProvider x:Key="ArtikelSource" ObjectInstance="{StaticResource Datenbank}"
+MethodName="GetDataViewArtikel"/>
+        <Style x:Key="RightAlignedColumn" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="0,0,5,0"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <DataGrid Name="DataGridTabelle" Height="600" Margin="20"
+                DataContext="{Binding Source={StaticResource ArtikelSource}}" ItemsSource="{Binding}"
+                AutoGenerateColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False"
+                IsReadOnly="True" HeadersVisibility="Column"
+                SelectedCellsChanged="DataGridTabelle_SelectedCellsChanged" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=ArtikelNr}" Header="Nr" Width="50"
+                        ElementStyle="{StaticResource RightAlignedColumn}"/>
+                    <DataGridTextColumn Binding="{Binding Path=Bezeichnung}" Header="Bezeichnung" Width="200"/>
+                    <DataGridTextColumn Binding="{Binding Path=C_Lieferant}" Header="Lieferant" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding Path=Bestand}" Header="Bestand" Width="60"
+ElementStyle="{StaticResource RightAlignedColumn}"/>
+                    <DataGridTextColumn Binding="{Binding Path=Einkaufspreis, StringFormat=C,
+ConverterCulture=de-DE}" Header="Einkaufspreis" Width="90"
+ElementStyle="{StaticResource RightAlignedColumn}"/>
+                    <DataGridTextColumn Binding="{Binding Path=Verkaufspreis, StringFormat=C,
+ConverterCulture=de-DE}" Header="Verkaufspreis" Width="90"
+ElementStyle="{StaticResource RightAlignedColumn}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <Label Name="LabelDatensatz" Width="150" />
+                <Button Name="ButtonErster" Width="30" Height="30" Click="ButtonErster_Click">
+                    <Image Width="24" Height="24" Source="/Tauchershop;component/Images/First.png" />
+                </Button>
+                <Button Name="ButtonVoriger" Width="30" Height="30" Click="ButtonVoriger_Click">
+                    <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Prior.png" />
+                </Button>
+                <Button Name="ButtonNaechster" Width="30" Height="30" Click="ButtonNaechster_Click">
+                    <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Next.png" />
+                </Button>
+                <Button Name="ButtonLetzter" Width="30" Height="30" Click="ButtonLetzter_Click" Margin="0,0,150,0">
+                    <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Last.png" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

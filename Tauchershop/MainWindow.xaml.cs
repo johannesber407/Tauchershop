@@ -40,7 +40,9 @@ namespace Tauchershop
         #region MenuItemAnsichten
         private void MenuItemAnsichtArtikel_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogAnsichtArtikel Dlg;
+            Dlg = new DialogAnsichtArtikel();
+            Dlg.ShowDialog();
         }
 
         private void MenuItemAnsichtAuftraege_Click(object sender, RoutedEventArgs e)
