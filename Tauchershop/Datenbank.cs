@@ -6,7 +6,7 @@ using System.Windows.Data;
 using Tauchershop;
 using Tauchershop.TauchShopDataSetTableAdapters;
 
-namespace TauchShop
+namespace Tauchershop
 {
     // Class TDatenbank
     public class TDatenbank : DependencyObject

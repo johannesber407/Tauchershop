@@ -84,6 +84,9 @@
     <Compile Include="DialogAnsichtArtikel.xaml.cs">
       <DependentUpon>DialogAnsichtArtikel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogAnsichtAuftraege.xaml.cs">
+      <DependentUpon>DialogAnsichtAuftraege.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DialogAnsichtKunde.xaml.cs">
       <DependentUpon>DialogAnsichtKunde.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <DependentUpon>TauchShopDataSet.xsd</DependentUpon>
     </Compile>
     <Page Include="DialogAnsichtArtikel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogAnsichtAuftraege.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

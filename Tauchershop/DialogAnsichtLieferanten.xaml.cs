@@ -74,7 +74,7 @@ namespace Tauchershop
             Index = DataGridTabelle.SelectedIndex;
 
             FocusManager.SetFocusedElement(this, DataGridTabelle);
-            MessageBox.Show(Index.ToString());
+
             DataGridTabelle.ScrollIntoView(DataGridTabelle.SelectedItem);
 
             SetzeNavigationsButton(ButtonErster, DataGridTabelle.SelectedIndex > 0);

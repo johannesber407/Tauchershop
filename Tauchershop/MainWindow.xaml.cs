@@ -46,8 +46,8 @@ namespace Tauchershop
         }
         private void MenuItemAnsichtAuftraege_Click(object sender, RoutedEventArgs e)
         {
-            DialogAnsichtArtikel Dlg;
-            Dlg = new DialogAnsichtArtikel();
+            DialogAnsichtAuftraege Dlg;
+            Dlg = new DialogAnsichtAuftraege();
             Dlg.ShowDialog();
         }
         private void MenuItemAnsichtKunden_Click(object sender, RoutedEventArgs e)

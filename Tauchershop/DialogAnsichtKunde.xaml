@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tauchershop"
         mc:Ignorable="d"
-        Title="DialogAnsichtKunde" Height="450" Width="800">
+        Title="DialogAnsichtKunde" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <ObjectDataProvider x:Key="Datenbank" ObjectType="{x:Type local:TDatenbank}" />
         <ObjectDataProvider x:Key="KundenSource" ObjectInstance="{StaticResource Datenbank}" MethodName="GetDataViewKunden" />

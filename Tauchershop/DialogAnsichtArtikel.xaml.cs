@@ -61,25 +61,18 @@ namespace Tauchershop
         {
             int Index;
             Index = DataGridTabelle.SelectedIndex;
-            // Fokus
+
             FocusManager.SetFocusedElement(this, DataGridTabelle);
 
-            MessageBox.Show(Index.ToString());
-
-            // ScrollBar
             DataGridTabelle.ScrollIntoView(DataGridTabelle.SelectedItem);
-            // Buttons
+
             SetzeNavigationsButton(ButtonErster, DataGridTabelle.SelectedIndex > 0);
             SetzeNavigationsButton(ButtonVoriger, DataGridTabelle.SelectedIndex > 0);
-            SetzeNavigationsButton(ButtonNaechster,
-            DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
-            SetzeNavigationsButton(ButtonLetzter,
-            DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
-            // Beschriftung
-            LabelDatensatz.Content = "Datensatz " + (DataGridTabelle.SelectedIndex + 1).ToString()
-            + " von " + DataGridTabelle.Items.Count.ToString();
+            SetzeNavigationsButton(ButtonNaechster, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
+            SetzeNavigationsButton(ButtonLetzter, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
+
+            LabelDatensatz.Content = "Datensatz " + (DataGridTabelle.SelectedIndex + 1).ToString() + " von " + DataGridTabelle.Items.Count.ToString();
         }
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private void DataGridTabelle_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             AktualisiereAnsicht();
