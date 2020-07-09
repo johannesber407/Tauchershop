@@ -45,8 +45,8 @@
                 <DataGridTextColumn Binding="{Binding Path=PositionsNr}" Header="Nr" Width="50" ElementStyle="{StaticResource RightAlignedColumn}" />
                 <DataGridTextColumn Binding="{Binding Path=C_Artikel}" Header="Artikel" Width="150" />
                 <DataGridTextColumn Binding="{Binding Path=StueckZahl}" Header="Stückzahl" Width="75" />
-                <DataGridTextColumn Binding="{Binding Path=C_Einzelpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Einzelpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
-                <DataGridTextColumn Binding="{Binding Path=C_Gesamtpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Gesamtpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=C_Einzelpreis, StringFormat=C, ConverterCulture=de-DE}" Header="Einzelpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=C_Gesamtpreis, StringFormat=C, ConverterCulture=de-DE}" Header="Gesamtpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
