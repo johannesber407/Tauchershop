@@ -543,6 +543,9 @@
               <xs:element name="KundenNr" msprop:Generator_ColumnVarNameInTable="columnKundenNr" msprop:Generator_ColumnPropNameInRow="KundenNr" msprop:Generator_ColumnPropNameInTable="KundenNrColumn" msprop:Generator_UserColumnName="KundenNr" type="xs:int" minOccurs="0" />
               <xs:element name="Datum" msprop:Generator_ColumnVarNameInTable="columnDatum" msprop:Generator_ColumnPropNameInRow="Datum" msprop:Generator_ColumnPropNameInTable="DatumColumn" msprop:Generator_UserColumnName="Datum" type="xs:dateTime" minOccurs="0" />
               <xs:element name="MitarbeiterNr" msprop:Generator_ColumnVarNameInTable="columnMitarbeiterNr" msprop:Generator_ColumnPropNameInRow="MitarbeiterNr" msprop:Generator_ColumnPropNameInTable="MitarbeiterNrColumn" msprop:Generator_UserColumnName="MitarbeiterNr" type="xs:int" minOccurs="0" />
+              <xs:element name="C_Betrag" msdata:ReadOnly="true" msdata:Expression="Sum(Child(AuftraegePositionen).C_Gesamtpreis)" msprop:Generator_ColumnVarNameInTable="columnC_Betrag" msprop:Generator_ColumnPropNameInRow="C_Betrag" msprop:Generator_ColumnPropNameInTable="C_BetragColumn" msprop:Generator_UserColumnName="C_Betrag" type="xs:double" minOccurs="0" />
+              <xs:element name="C_Kunde" msdata:ReadOnly="true" msdata:Expression="Parent(KundenAuftraege).Name" msprop:Generator_ColumnVarNameInTable="columnC_Kunde" msprop:Generator_ColumnPropNameInRow="C_Kunde" msprop:Generator_ColumnPropNameInTable="C_KundeColumn" msprop:Generator_UserColumnName="C_Kunde" type="xs:string" minOccurs="0" />
+              <xs:element name="C_Mitarbeiter" msdata:ReadOnly="true" msdata:Expression="Parent(MitarbeiterAuftraege).C_Mitarbeiter" msprop:Generator_ColumnVarNameInTable="columnC_Mitarbeiter" msprop:Generator_ColumnPropNameInRow="C_Mitarbeiter" msprop:Generator_ColumnPropNameInTable="C_MitarbeiterColumn" msprop:Generator_UserColumnName="C_Mitarbeiter" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -683,6 +686,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="C_Mitarbeiter" msdata:ReadOnly="true" msdata:Expression="Name + ', ' + Vorname" msprop:Generator_ColumnVarNameInTable="columnC_Mitarbeiter" msprop:Generator_ColumnPropNameInRow="C_Mitarbeiter" msprop:Generator_ColumnPropNameInTable="C_MitarbeiterColumn" msprop:Generator_UserColumnName="C_Mitarbeiter" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -693,6 +697,9 @@
               <xs:element name="PositionsNr" msprop:Generator_ColumnVarNameInTable="columnPositionsNr" msprop:Generator_ColumnPropNameInRow="PositionsNr" msprop:Generator_ColumnPropNameInTable="PositionsNrColumn" msprop:Generator_UserColumnName="PositionsNr" type="xs:int" />
               <xs:element name="ArtikelNr" msprop:Generator_ColumnVarNameInTable="columnArtikelNr" msprop:Generator_ColumnPropNameInRow="ArtikelNr" msprop:Generator_ColumnPropNameInTable="ArtikelNrColumn" msprop:Generator_UserColumnName="ArtikelNr" type="xs:int" minOccurs="0" />
               <xs:element name="StueckZahl" msprop:Generator_ColumnVarNameInTable="columnStueckZahl" msprop:Generator_ColumnPropNameInRow="StueckZahl" msprop:Generator_ColumnPropNameInTable="StueckZahlColumn" msprop:Generator_UserColumnName="StueckZahl" type="xs:int" minOccurs="0" />
+              <xs:element name="C_Artikel" msdata:ReadOnly="true" msdata:Expression="Parent(ArtikelNeuePositionen).Bezeichnung" msprop:Generator_ColumnVarNameInTable="columnC_Artikel" msprop:Generator_ColumnPropNameInRow="C_Artikel" msprop:Generator_ColumnPropNameInTable="C_ArtikelColumn" msprop:Generator_UserColumnName="C_Artikel" type="xs:string" minOccurs="0" />
+              <xs:element name="C_Einzelpreis" msdata:ReadOnly="true" msdata:Expression="Parent(ArtikelNeuePositionen).Verkaufspreis" msprop:Generator_ColumnVarNameInTable="columnC_Einzelpreis" msprop:Generator_ColumnPropNameInRow="C_Einzelpreis" msprop:Generator_ColumnPropNameInTable="C_EinzelpreisColumn" msprop:Generator_UserColumnName="C_Einzelpreis" type="xs:decimal" minOccurs="0" />
+              <xs:element name="C_Gesamtpreis" msdata:ReadOnly="true" msdata:Expression="StueckZahl * Parent(ArtikelNeuePositionen).Verkaufspreis" msprop:Generator_ColumnVarNameInTable="columnC_Gesamtpreis" msprop:Generator_ColumnPropNameInRow="C_Gesamtpreis" msprop:Generator_ColumnPropNameInTable="C_GesamtpreisColumn" msprop:Generator_UserColumnName="C_Gesamtpreis" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -703,6 +710,9 @@
               <xs:element name="PositionsNr" msprop:Generator_ColumnVarNameInTable="columnPositionsNr" msprop:Generator_ColumnPropNameInRow="PositionsNr" msprop:Generator_ColumnPropNameInTable="PositionsNrColumn" msprop:Generator_UserColumnName="PositionsNr" type="xs:int" />
               <xs:element name="ArtikelNr" msprop:Generator_ColumnVarNameInTable="columnArtikelNr" msprop:Generator_ColumnPropNameInRow="ArtikelNr" msprop:Generator_ColumnPropNameInTable="ArtikelNrColumn" msprop:Generator_UserColumnName="ArtikelNr" type="xs:int" minOccurs="0" />
               <xs:element name="StueckZahl" msprop:Generator_ColumnVarNameInTable="columnStueckZahl" msprop:Generator_ColumnPropNameInRow="StueckZahl" msprop:Generator_ColumnPropNameInTable="StueckZahlColumn" msprop:Generator_UserColumnName="StueckZahl" type="xs:int" minOccurs="0" />
+              <xs:element name="C_Artikel" msdata:ReadOnly="true" msdata:Expression="Parent(ArtikelPositionen).Bezeichnung" msprop:Generator_ColumnVarNameInTable="columnC_Artikel" msprop:Generator_ColumnPropNameInRow="C_Artikel" msprop:Generator_ColumnPropNameInTable="C_ArtikelColumn" msprop:Generator_UserColumnName="C_Artikel" type="xs:string" minOccurs="0" />
+              <xs:element name="C_Einzelpreis" msdata:ReadOnly="true" msdata:Expression="Parent(ArtikelPositionen).Verkaufspreis" msprop:Generator_ColumnVarNameInTable="columnC_Einzelpreis" msprop:Generator_ColumnPropNameInRow="C_Einzelpreis" msprop:Generator_ColumnPropNameInTable="C_EinzelpreisColumn" msprop:Generator_UserColumnName="C_Einzelpreis" type="xs:decimal" minOccurs="0" />
+              <xs:element name="C_Gesamtpreis" msdata:ReadOnly="true" msdata:Expression="StueckZahl * Parent(ArtikelPositionen).Verkaufspreis" msprop:Generator_ColumnVarNameInTable="columnC_Gesamtpreis" msprop:Generator_ColumnPropNameInRow="C_Gesamtpreis" msprop:Generator_ColumnPropNameInTable="C_GesamtpreisColumn" msprop:Generator_UserColumnName="C_Gesamtpreis" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

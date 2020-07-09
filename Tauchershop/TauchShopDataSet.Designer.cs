@@ -374,17 +374,17 @@ namespace Tauchershop {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableArtikel = new ArtikelDataTable(false);
             base.Tables.Add(this.tableArtikel);
-            this.tableAuftraege = new AuftraegeDataTable();
+            this.tableAuftraege = new AuftraegeDataTable(false);
             base.Tables.Add(this.tableAuftraege);
             this.tableKunden = new KundenDataTable();
             base.Tables.Add(this.tableKunden);
             this.tableLieferanten = new LieferantenDataTable();
             base.Tables.Add(this.tableLieferanten);
-            this.tableMitarbeiter = new MitarbeiterDataTable();
+            this.tableMitarbeiter = new MitarbeiterDataTable(false);
             base.Tables.Add(this.tableMitarbeiter);
-            this.tableNeuePositionen = new NeuePositionenDataTable();
+            this.tableNeuePositionen = new NeuePositionenDataTable(false);
             base.Tables.Add(this.tableNeuePositionen);
-            this.tablePositionen = new PositionenDataTable();
+            this.tablePositionen = new PositionenDataTable(false);
             base.Tables.Add(this.tablePositionen);
             this.relationLieferantenArtikel = new global::System.Data.DataRelation("LieferantenArtikel", new global::System.Data.DataColumn[] {
                         this.tableLieferanten.LieferantenNrColumn}, new global::System.Data.DataColumn[] {
@@ -513,6 +513,16 @@ namespace Tauchershop {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitExpressions() {
             this.Artikel.C_LieferantColumn.Expression = "Parent(LieferantenArtikel).Name";
+            this.Auftraege.C_BetragColumn.Expression = "Sum(Child(AuftraegePositionen).C_Gesamtpreis)";
+            this.Auftraege.C_KundeColumn.Expression = "Parent(KundenAuftraege).Name";
+            this.Auftraege.C_MitarbeiterColumn.Expression = "Parent(MitarbeiterAuftraege).C_Mitarbeiter";
+            this.Mitarbeiter.C_MitarbeiterColumn.Expression = "Name + \', \' + Vorname";
+            this.NeuePositionen.C_ArtikelColumn.Expression = "Parent(ArtikelNeuePositionen).Bezeichnung";
+            this.NeuePositionen.C_EinzelpreisColumn.Expression = "Parent(ArtikelNeuePositionen).Verkaufspreis";
+            this.NeuePositionen.C_GesamtpreisColumn.Expression = "StueckZahl * Parent(ArtikelNeuePositionen).Verkaufspreis";
+            this.Positionen.C_ArtikelColumn.Expression = "Parent(ArtikelPositionen).Bezeichnung";
+            this.Positionen.C_EinzelpreisColumn.Expression = "Parent(ArtikelPositionen).Verkaufspreis";
+            this.Positionen.C_GesamtpreisColumn.Expression = "StueckZahl * Parent(ArtikelPositionen).Verkaufspreis";
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -933,12 +943,27 @@ namespace Tauchershop {
             
             private global::System.Data.DataColumn columnMitarbeiterNr;
             
+            private global::System.Data.DataColumn columnC_Betrag;
+            
+            private global::System.Data.DataColumn columnC_Kunde;
+            
+            private global::System.Data.DataColumn columnC_Mitarbeiter;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public AuftraegeDataTable() {
+            public AuftraegeDataTable() : 
+                    this(false) {
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public AuftraegeDataTable(bool initExpressions) {
                 this.TableName = "Auftraege";
                 this.BeginInit();
                 this.InitClass();
+                if ((initExpressions == true)) {
+                    this.InitExpressions();
+                }
                 this.EndInit();
             }
             
@@ -1000,6 +1025,30 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_BetragColumn {
+                get {
+                    return this.columnC_Betrag;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_KundeColumn {
+                get {
+                    return this.columnC_Kunde;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_MitarbeiterColumn {
+                get {
+                    return this.columnC_Mitarbeiter;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1035,12 +1084,38 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public AuftraegeRow AddAuftraegeRow(int AuftragsNr, KundenRow parentKundenRowByKundenAuftraege, System.DateTime Datum, MitarbeiterRow parentMitarbeiterRowByMitarbeiterAuftraege, double C_Betrag, string C_Kunde, string C_Mitarbeiter) {
+                AuftraegeRow rowAuftraegeRow = ((AuftraegeRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        AuftragsNr,
+                        null,
+                        Datum,
+                        null,
+                        C_Betrag,
+                        C_Kunde,
+                        C_Mitarbeiter};
+                if ((parentKundenRowByKundenAuftraege != null)) {
+                    columnValuesArray[1] = parentKundenRowByKundenAuftraege[0];
+                }
+                if ((parentMitarbeiterRowByMitarbeiterAuftraege != null)) {
+                    columnValuesArray[3] = parentMitarbeiterRowByMitarbeiterAuftraege[0];
+                }
+                rowAuftraegeRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAuftraegeRow);
+                return rowAuftraegeRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public AuftraegeRow AddAuftraegeRow(int AuftragsNr, KundenRow parentKundenRowByKundenAuftraege, System.DateTime Datum, MitarbeiterRow parentMitarbeiterRowByMitarbeiterAuftraege) {
                 AuftraegeRow rowAuftraegeRow = ((AuftraegeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         AuftragsNr,
                         null,
                         Datum,
+                        null,
+                        null,
+                        null,
                         null};
                 if ((parentKundenRowByKundenAuftraege != null)) {
                     columnValuesArray[1] = parentKundenRowByKundenAuftraege[0];
@@ -1081,6 +1156,9 @@ namespace Tauchershop {
                 this.columnKundenNr = base.Columns["KundenNr"];
                 this.columnDatum = base.Columns["Datum"];
                 this.columnMitarbeiterNr = base.Columns["MitarbeiterNr"];
+                this.columnC_Betrag = base.Columns["C_Betrag"];
+                this.columnC_Kunde = base.Columns["C_Kunde"];
+                this.columnC_Mitarbeiter = base.Columns["C_Mitarbeiter"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1094,10 +1172,19 @@ namespace Tauchershop {
                 base.Columns.Add(this.columnDatum);
                 this.columnMitarbeiterNr = new global::System.Data.DataColumn("MitarbeiterNr", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMitarbeiterNr);
+                this.columnC_Betrag = new global::System.Data.DataColumn("C_Betrag", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Betrag);
+                this.columnC_Kunde = new global::System.Data.DataColumn("C_Kunde", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Kunde);
+                this.columnC_Mitarbeiter = new global::System.Data.DataColumn("C_Mitarbeiter", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Mitarbeiter);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnAuftragsNr}, true));
                 this.columnAuftragsNr.AllowDBNull = false;
                 this.columnAuftragsNr.Unique = true;
+                this.columnC_Betrag.ReadOnly = true;
+                this.columnC_Kunde.ReadOnly = true;
+                this.columnC_Mitarbeiter.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1116,6 +1203,14 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
                 return typeof(AuftraegeRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitExpressions() {
+                this.C_BetragColumn.Expression = "Sum(Child(AuftraegePositionen).C_Gesamtpreis)";
+                this.C_KundeColumn.Expression = "Parent(KundenAuftraege).Name";
+                this.C_MitarbeiterColumn.Expression = "Parent(MitarbeiterAuftraege).C_Mitarbeiter";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1978,12 +2073,23 @@ namespace Tauchershop {
             
             private global::System.Data.DataColumn columnVorname;
             
+            private global::System.Data.DataColumn columnC_Mitarbeiter;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public MitarbeiterDataTable() {
+            public MitarbeiterDataTable() : 
+                    this(false) {
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public MitarbeiterDataTable(bool initExpressions) {
                 this.TableName = "Mitarbeiter";
                 this.BeginInit();
                 this.InitClass();
+                if ((initExpressions == true)) {
+                    this.InitExpressions();
+                }
                 this.EndInit();
             }
             
@@ -2037,6 +2143,14 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_MitarbeiterColumn {
+                get {
+                    return this.columnC_Mitarbeiter;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2072,12 +2186,27 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public MitarbeiterRow AddMitarbeiterRow(int MitarbeiterNr, string Name, string Vorname, string C_Mitarbeiter) {
+                MitarbeiterRow rowMitarbeiterRow = ((MitarbeiterRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        MitarbeiterNr,
+                        Name,
+                        Vorname,
+                        C_Mitarbeiter};
+                rowMitarbeiterRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowMitarbeiterRow);
+                return rowMitarbeiterRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public MitarbeiterRow AddMitarbeiterRow(int MitarbeiterNr, string Name, string Vorname) {
                 MitarbeiterRow rowMitarbeiterRow = ((MitarbeiterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MitarbeiterNr,
                         Name,
-                        Vorname};
+                        Vorname,
+                        null};
                 rowMitarbeiterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMitarbeiterRow);
                 return rowMitarbeiterRow;
@@ -2110,6 +2239,7 @@ namespace Tauchershop {
                 this.columnMitarbeiterNr = base.Columns["MitarbeiterNr"];
                 this.columnName = base.Columns["Name"];
                 this.columnVorname = base.Columns["Vorname"];
+                this.columnC_Mitarbeiter = base.Columns["C_Mitarbeiter"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2121,12 +2251,15 @@ namespace Tauchershop {
                 base.Columns.Add(this.columnName);
                 this.columnVorname = new global::System.Data.DataColumn("Vorname", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVorname);
+                this.columnC_Mitarbeiter = new global::System.Data.DataColumn("C_Mitarbeiter", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Mitarbeiter);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMitarbeiterNr}, true));
                 this.columnMitarbeiterNr.AllowDBNull = false;
                 this.columnMitarbeiterNr.Unique = true;
                 this.columnName.MaxLength = 20;
                 this.columnVorname.MaxLength = 15;
+                this.columnC_Mitarbeiter.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2145,6 +2278,12 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
                 return typeof(MitarbeiterRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitExpressions() {
+                this.C_MitarbeiterColumn.Expression = "Name + \', \' + Vorname";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2268,12 +2407,27 @@ namespace Tauchershop {
             
             private global::System.Data.DataColumn columnStueckZahl;
             
+            private global::System.Data.DataColumn columnC_Artikel;
+            
+            private global::System.Data.DataColumn columnC_Einzelpreis;
+            
+            private global::System.Data.DataColumn columnC_Gesamtpreis;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public NeuePositionenDataTable() {
+            public NeuePositionenDataTable() : 
+                    this(false) {
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public NeuePositionenDataTable(bool initExpressions) {
                 this.TableName = "NeuePositionen";
                 this.BeginInit();
                 this.InitClass();
+                if ((initExpressions == true)) {
+                    this.InitExpressions();
+                }
                 this.EndInit();
             }
             
@@ -2335,6 +2489,30 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_ArtikelColumn {
+                get {
+                    return this.columnC_Artikel;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_EinzelpreisColumn {
+                get {
+                    return this.columnC_Einzelpreis;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_GesamtpreisColumn {
+                get {
+                    return this.columnC_Gesamtpreis;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2370,13 +2548,36 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public NeuePositionenRow AddNeuePositionenRow(int AuftragsNr, int PositionsNr, ArtikelRow parentArtikelRowByArtikelNeuePositionen, int StueckZahl, string C_Artikel, decimal C_Einzelpreis, decimal C_Gesamtpreis) {
+                NeuePositionenRow rowNeuePositionenRow = ((NeuePositionenRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        AuftragsNr,
+                        PositionsNr,
+                        null,
+                        StueckZahl,
+                        C_Artikel,
+                        C_Einzelpreis,
+                        C_Gesamtpreis};
+                if ((parentArtikelRowByArtikelNeuePositionen != null)) {
+                    columnValuesArray[2] = parentArtikelRowByArtikelNeuePositionen[0];
+                }
+                rowNeuePositionenRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowNeuePositionenRow);
+                return rowNeuePositionenRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public NeuePositionenRow AddNeuePositionenRow(int AuftragsNr, int PositionsNr, ArtikelRow parentArtikelRowByArtikelNeuePositionen, int StueckZahl) {
                 NeuePositionenRow rowNeuePositionenRow = ((NeuePositionenRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         AuftragsNr,
                         PositionsNr,
                         null,
-                        StueckZahl};
+                        StueckZahl,
+                        null,
+                        null,
+                        null};
                 if ((parentArtikelRowByArtikelNeuePositionen != null)) {
                     columnValuesArray[2] = parentArtikelRowByArtikelNeuePositionen[0];
                 }
@@ -2413,6 +2614,9 @@ namespace Tauchershop {
                 this.columnPositionsNr = base.Columns["PositionsNr"];
                 this.columnArtikelNr = base.Columns["ArtikelNr"];
                 this.columnStueckZahl = base.Columns["StueckZahl"];
+                this.columnC_Artikel = base.Columns["C_Artikel"];
+                this.columnC_Einzelpreis = base.Columns["C_Einzelpreis"];
+                this.columnC_Gesamtpreis = base.Columns["C_Gesamtpreis"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2426,10 +2630,19 @@ namespace Tauchershop {
                 base.Columns.Add(this.columnArtikelNr);
                 this.columnStueckZahl = new global::System.Data.DataColumn("StueckZahl", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStueckZahl);
+                this.columnC_Artikel = new global::System.Data.DataColumn("C_Artikel", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Artikel);
+                this.columnC_Einzelpreis = new global::System.Data.DataColumn("C_Einzelpreis", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Einzelpreis);
+                this.columnC_Gesamtpreis = new global::System.Data.DataColumn("C_Gesamtpreis", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Gesamtpreis);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnPositionsNr}, true));
                 this.columnPositionsNr.AllowDBNull = false;
                 this.columnPositionsNr.Unique = true;
+                this.columnC_Artikel.ReadOnly = true;
+                this.columnC_Einzelpreis.ReadOnly = true;
+                this.columnC_Gesamtpreis.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2448,6 +2661,14 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
                 return typeof(NeuePositionenRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitExpressions() {
+                this.C_ArtikelColumn.Expression = "Parent(ArtikelNeuePositionen).Bezeichnung";
+                this.C_EinzelpreisColumn.Expression = "Parent(ArtikelNeuePositionen).Verkaufspreis";
+                this.C_GesamtpreisColumn.Expression = "StueckZahl * Parent(ArtikelNeuePositionen).Verkaufspreis";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2571,12 +2792,27 @@ namespace Tauchershop {
             
             private global::System.Data.DataColumn columnStueckZahl;
             
+            private global::System.Data.DataColumn columnC_Artikel;
+            
+            private global::System.Data.DataColumn columnC_Einzelpreis;
+            
+            private global::System.Data.DataColumn columnC_Gesamtpreis;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public PositionenDataTable() {
+            public PositionenDataTable() : 
+                    this(false) {
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public PositionenDataTable(bool initExpressions) {
                 this.TableName = "Positionen";
                 this.BeginInit();
                 this.InitClass();
+                if ((initExpressions == true)) {
+                    this.InitExpressions();
+                }
                 this.EndInit();
             }
             
@@ -2638,6 +2874,30 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_ArtikelColumn {
+                get {
+                    return this.columnC_Artikel;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_EinzelpreisColumn {
+                get {
+                    return this.columnC_Einzelpreis;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn C_GesamtpreisColumn {
+                get {
+                    return this.columnC_Gesamtpreis;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2673,13 +2933,39 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public PositionenRow AddPositionenRow(AuftraegeRow parentAuftraegeRowByAuftraegePositionen, int PositionsNr, ArtikelRow parentArtikelRowByArtikelPositionen, int StueckZahl, string C_Artikel, decimal C_Einzelpreis, decimal C_Gesamtpreis) {
+                PositionenRow rowPositionenRow = ((PositionenRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        PositionsNr,
+                        null,
+                        StueckZahl,
+                        C_Artikel,
+                        C_Einzelpreis,
+                        C_Gesamtpreis};
+                if ((parentAuftraegeRowByAuftraegePositionen != null)) {
+                    columnValuesArray[0] = parentAuftraegeRowByAuftraegePositionen[0];
+                }
+                if ((parentArtikelRowByArtikelPositionen != null)) {
+                    columnValuesArray[2] = parentArtikelRowByArtikelPositionen[0];
+                }
+                rowPositionenRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowPositionenRow);
+                return rowPositionenRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public PositionenRow AddPositionenRow(AuftraegeRow parentAuftraegeRowByAuftraegePositionen, int PositionsNr, ArtikelRow parentArtikelRowByArtikelPositionen, int StueckZahl) {
                 PositionenRow rowPositionenRow = ((PositionenRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         PositionsNr,
                         null,
-                        StueckZahl};
+                        StueckZahl,
+                        null,
+                        null,
+                        null};
                 if ((parentAuftraegeRowByAuftraegePositionen != null)) {
                     columnValuesArray[0] = parentAuftraegeRowByAuftraegePositionen[0];
                 }
@@ -2720,6 +3006,9 @@ namespace Tauchershop {
                 this.columnPositionsNr = base.Columns["PositionsNr"];
                 this.columnArtikelNr = base.Columns["ArtikelNr"];
                 this.columnStueckZahl = base.Columns["StueckZahl"];
+                this.columnC_Artikel = base.Columns["C_Artikel"];
+                this.columnC_Einzelpreis = base.Columns["C_Einzelpreis"];
+                this.columnC_Gesamtpreis = base.Columns["C_Gesamtpreis"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2733,11 +3022,20 @@ namespace Tauchershop {
                 base.Columns.Add(this.columnArtikelNr);
                 this.columnStueckZahl = new global::System.Data.DataColumn("StueckZahl", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStueckZahl);
+                this.columnC_Artikel = new global::System.Data.DataColumn("C_Artikel", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Artikel);
+                this.columnC_Einzelpreis = new global::System.Data.DataColumn("C_Einzelpreis", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Einzelpreis);
+                this.columnC_Gesamtpreis = new global::System.Data.DataColumn("C_Gesamtpreis", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnC_Gesamtpreis);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnAuftragsNr,
                                 this.columnPositionsNr}, true));
                 this.columnAuftragsNr.AllowDBNull = false;
                 this.columnPositionsNr.AllowDBNull = false;
+                this.columnC_Artikel.ReadOnly = true;
+                this.columnC_Einzelpreis.ReadOnly = true;
+                this.columnC_Gesamtpreis.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2756,6 +3054,14 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
                 return typeof(PositionenRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitExpressions() {
+                this.C_ArtikelColumn.Expression = "Parent(ArtikelPositionen).Bezeichnung";
+                this.C_EinzelpreisColumn.Expression = "Parent(ArtikelPositionen).Verkaufspreis";
+                this.C_GesamtpreisColumn.Expression = "StueckZahl * Parent(ArtikelPositionen).Verkaufspreis";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3166,6 +3472,54 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public double C_Betrag {
+                get {
+                    try {
+                        return ((double)(this[this.tableAuftraege.C_BetragColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Betrag\' in table \'Auftraege\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAuftraege.C_BetragColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string C_Kunde {
+                get {
+                    try {
+                        return ((string)(this[this.tableAuftraege.C_KundeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Kunde\' in table \'Auftraege\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAuftraege.C_KundeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string C_Mitarbeiter {
+                get {
+                    try {
+                        return ((string)(this[this.tableAuftraege.C_MitarbeiterColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Mitarbeiter\' in table \'Auftraege\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAuftraege.C_MitarbeiterColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public KundenRow KundenRow {
                 get {
                     return ((KundenRow)(this.GetParentRow(this.Table.ParentRelations["KundenAuftraege"])));
@@ -3220,6 +3574,42 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetMitarbeiterNrNull() {
                 this[this.tableAuftraege.MitarbeiterNrColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_BetragNull() {
+                return this.IsNull(this.tableAuftraege.C_BetragColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_BetragNull() {
+                this[this.tableAuftraege.C_BetragColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_KundeNull() {
+                return this.IsNull(this.tableAuftraege.C_KundeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_KundeNull() {
+                this[this.tableAuftraege.C_KundeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_MitarbeiterNull() {
+                return this.IsNull(this.tableAuftraege.C_MitarbeiterColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_MitarbeiterNull() {
+                this[this.tableAuftraege.C_MitarbeiterColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3787,6 +4177,22 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string C_Mitarbeiter {
+                get {
+                    try {
+                        return ((string)(this[this.tableMitarbeiter.C_MitarbeiterColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Mitarbeiter\' in table \'Mitarbeiter\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMitarbeiter.C_MitarbeiterColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tableMitarbeiter.NameColumn);
             }
@@ -3807,6 +4213,18 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetVornameNull() {
                 this[this.tableMitarbeiter.VornameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_MitarbeiterNull() {
+                return this.IsNull(this.tableMitarbeiter.C_MitarbeiterColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_MitarbeiterNull() {
+                this[this.tableMitarbeiter.C_MitarbeiterColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3896,6 +4314,54 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string C_Artikel {
+                get {
+                    try {
+                        return ((string)(this[this.tableNeuePositionen.C_ArtikelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Artikel\' in table \'NeuePositionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableNeuePositionen.C_ArtikelColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal C_Einzelpreis {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableNeuePositionen.C_EinzelpreisColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Einzelpreis\' in table \'NeuePositionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableNeuePositionen.C_EinzelpreisColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal C_Gesamtpreis {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableNeuePositionen.C_GesamtpreisColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Gesamtpreis\' in table \'NeuePositionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableNeuePositionen.C_GesamtpreisColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public ArtikelRow ArtikelRow {
                 get {
                     return ((ArtikelRow)(this.GetParentRow(this.Table.ParentRelations["ArtikelNeuePositionen"])));
@@ -3939,6 +4405,42 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetStueckZahlNull() {
                 this[this.tableNeuePositionen.StueckZahlColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_ArtikelNull() {
+                return this.IsNull(this.tableNeuePositionen.C_ArtikelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_ArtikelNull() {
+                this[this.tableNeuePositionen.C_ArtikelColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_EinzelpreisNull() {
+                return this.IsNull(this.tableNeuePositionen.C_EinzelpreisColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_EinzelpreisNull() {
+                this[this.tableNeuePositionen.C_EinzelpreisColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_GesamtpreisNull() {
+                return this.IsNull(this.tableNeuePositionen.C_GesamtpreisColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_GesamtpreisNull() {
+                this[this.tableNeuePositionen.C_GesamtpreisColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -4012,6 +4514,54 @@ namespace Tauchershop {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string C_Artikel {
+                get {
+                    try {
+                        return ((string)(this[this.tablePositionen.C_ArtikelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Artikel\' in table \'Positionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePositionen.C_ArtikelColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal C_Einzelpreis {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablePositionen.C_EinzelpreisColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Einzelpreis\' in table \'Positionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePositionen.C_EinzelpreisColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal C_Gesamtpreis {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablePositionen.C_GesamtpreisColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'C_Gesamtpreis\' in table \'Positionen\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePositionen.C_GesamtpreisColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public ArtikelRow ArtikelRow {
                 get {
                     return ((ArtikelRow)(this.GetParentRow(this.Table.ParentRelations["ArtikelPositionen"])));
@@ -4054,6 +4604,42 @@ namespace Tauchershop {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetStueckZahlNull() {
                 this[this.tablePositionen.StueckZahlColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_ArtikelNull() {
+                return this.IsNull(this.tablePositionen.C_ArtikelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_ArtikelNull() {
+                this[this.tablePositionen.C_ArtikelColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_EinzelpreisNull() {
+                return this.IsNull(this.tablePositionen.C_EinzelpreisColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_EinzelpreisNull() {
+                this[this.tablePositionen.C_EinzelpreisColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsC_GesamtpreisNull() {
+                return this.IsNull(this.tablePositionen.C_GesamtpreisColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetC_GesamtpreisNull() {
+                this[this.tablePositionen.C_GesamtpreisColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -4964,7 +5550,7 @@ namespace Tauchershop.TauchShopDataSetTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual TauchShopDataSet.AuftraegeDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            TauchShopDataSet.AuftraegeDataTable dataTable = new TauchShopDataSet.AuftraegeDataTable();
+            TauchShopDataSet.AuftraegeDataTable dataTable = new TauchShopDataSet.AuftraegeDataTable(true);
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -6462,7 +7048,7 @@ namespace Tauchershop.TauchShopDataSetTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual TauchShopDataSet.MitarbeiterDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            TauchShopDataSet.MitarbeiterDataTable dataTable = new TauchShopDataSet.MitarbeiterDataTable();
+            TauchShopDataSet.MitarbeiterDataTable dataTable = new TauchShopDataSet.MitarbeiterDataTable(true);
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -6849,7 +7435,7 @@ namespace Tauchershop.TauchShopDataSetTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual TauchShopDataSet.NeuePositionenDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            TauchShopDataSet.NeuePositionenDataTable dataTable = new TauchShopDataSet.NeuePositionenDataTable();
+            TauchShopDataSet.NeuePositionenDataTable dataTable = new TauchShopDataSet.NeuePositionenDataTable(true);
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -7262,7 +7848,7 @@ namespace Tauchershop.TauchShopDataSetTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual TauchShopDataSet.PositionenDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            TauchShopDataSet.PositionenDataTable dataTable = new TauchShopDataSet.PositionenDataTable();
+            TauchShopDataSet.PositionenDataTable dataTable = new TauchShopDataSet.PositionenDataTable(true);
             this.Adapter.Fill(dataTable);
             return dataTable;
         }

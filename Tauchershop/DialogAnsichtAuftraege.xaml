@@ -4,9 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tauchershop"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="DialogAnsichtAuftraege" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Aufträge" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="Datenbank" ObjectType="{x:Type local:TDatenbank}" />
+        <ObjectDataProvider x:Key="AuftraegeSource" ObjectInstance="{StaticResource Datenbank}" MethodName="GetDataViewAuftraege" />
+        <ObjectDataProvider x:Key="PositionenSource" ObjectInstance="{StaticResource Datenbank}" MethodName="GetDataViewPositionenNachAuftrag">
+            <ObjectDataProvider.MethodParameters>
+                <system:Int32>1003</system:Int32>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="RightAlignedColumn" TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="Padding" Value="0,0,5,0" />
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <DataGrid Name="DataGridTabelle" Height="400" Margin="20"
+            DataContext="{Binding Source={StaticResource AuftraegeSource}}" ItemsSource="{Binding}"
+            AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"
+            IsReadOnly="True" HeadersVisibility="Column"
+            SelectedCellsChanged="DataGridTabelle_SelectedCellsChanged" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=AuftragsNr}" Header="Nr" Width="50" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=Datum, StringFormat=d, ConverterCulture=de-DE}" Header="Datum" Width="75" />
+                <DataGridTextColumn Binding="{Binding Path=C_Betrag, StringFormat=C, ConverterCulture=de-DE}" Header="Betrag" Width="90" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=C_Kunde}" Header="Kunde" Width="150" />
+                <DataGridTextColumn Binding="{Binding Path=C_Mitarbeiter}" Header="Mitarbeiter" Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Name="DataGridPositionen" Height="200" Margin="20"
+            DataContext="{Binding Source={StaticResource PositionenSource}}" ItemsSource="{Binding}"
+            AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"
+            IsReadOnly="True" HeadersVisibility="Column"
+            SelectedCellsChanged="DataGridTabelle_SelectedCellsChanged" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=PositionsNr}" Header="Nr" Width="50" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=C_Artikel}" Header="Artikel" Width="150" />
+                <DataGridTextColumn Binding="{Binding Path=Stueckzahl}" Header="Stückzahl" Width="75" />
+                <DataGridTextColumn Binding="{Binding Path=C_Einzelpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Einzelpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
+                <DataGridTextColumn Binding="{Binding Path=C_Gesamtpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Gesamtpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Label Name="LabelDatensatz" Width="150" />
+            <Button Name="ButtonErster" Width="30" Height="30" Click="ButtonErster_Click">
+                <Image Width="24" Height="24" Source="/Tauchershop;component/Images/First.png" />
+            </Button>
+            <Button Name="ButtonVoriger" Width="30" Height="30" Click="ButtonVoriger_Click">
+                <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Prior.png" />
+            </Button>
+            <Button Name="ButtonRechnung" Content="Rechnung" Click="ButtonRechnung_Click" Padding="5"/>
+            <Button Name="ButtonNaechster" Width="30" Height="30" Click="ButtonNaechster_Click">
+                <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Next.png" />
+            </Button>
+            <Button Name="ButtonLetzter" Width="30" Height="30" Click="ButtonLetzter_Click" Margin="0,0,150,0">
+                <Image Width="24" Height="24" Source="/Tauchershop;component/Images/Last.png" />
+            </Button>
+        </StackPanel>
+    </StackPanel>
 </Window>
