@@ -22,36 +22,39 @@ namespace Tauchershop
         public DialogAnsichtAuftraege()
         {
             InitializeComponent();
-            FocusManager.SetFocusedElement(this, DataGridTabelle);
+            FocusManager.SetFocusedElement(this, DataGridAuftraege);
             ButtonErster_Click(null, null);
         }
 
-        private void DataGridTabelle_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        private void DataGridAuftraege_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            AktualisiereAnsicht();
+            ObjectDataProvider PositionenProvider;
+            PositionenProvider = (ObjectDataProvider)(FindResource("PositionenSource"));
+            PositionenProvider.MethodParameters[0] = DataGridAuftraege.SelectedValue;
+            //AktualisiereAnsicht();
         }
 
         private void ButtonErster_Click(object sender, RoutedEventArgs e)
         {
-            DataGridTabelle.SelectedIndex = 0;
+            DataGridAuftraege.SelectedIndex = 0;
             AktualisiereAnsicht();
         }
 
         private void ButtonVoriger_Click(object sender, RoutedEventArgs e)
         {
-            DataGridTabelle.SelectedIndex--;
+            DataGridAuftraege.SelectedIndex--;
             AktualisiereAnsicht();
         }
 
         private void ButtonNaechster_Click(object sender, RoutedEventArgs e)
         {
-            DataGridTabelle.SelectedIndex++;
+            DataGridAuftraege.SelectedIndex++;
             AktualisiereAnsicht();
         }
 
         private void ButtonLetzter_Click(object sender, RoutedEventArgs e)
         {
-            DataGridTabelle.SelectedIndex = DataGridTabelle.Items.Count - 1;
+            DataGridAuftraege.SelectedIndex = DataGridAuftraege.Items.Count - 1;
             AktualisiereAnsicht();
         }
 
@@ -71,21 +74,26 @@ namespace Tauchershop
         private void AktualisiereAnsicht()
         {
             int Index;
-            Index = DataGridTabelle.SelectedIndex;
+            Index = DataGridAuftraege.SelectedIndex;
 
-            FocusManager.SetFocusedElement(this, DataGridTabelle);
+            FocusManager.SetFocusedElement(this, DataGridAuftraege);
 
-            DataGridTabelle.ScrollIntoView(DataGridTabelle.SelectedItem);
+            DataGridAuftraege.ScrollIntoView(DataGridAuftraege.SelectedItem);
 
-            SetzeNavigationsButton(ButtonErster, DataGridTabelle.SelectedIndex > 0);
-            SetzeNavigationsButton(ButtonVoriger, DataGridTabelle.SelectedIndex > 0);
-            SetzeNavigationsButton(ButtonNaechster, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
-            SetzeNavigationsButton(ButtonLetzter, DataGridTabelle.SelectedIndex < DataGridTabelle.Items.Count - 1);
+            SetzeNavigationsButton(ButtonErster, DataGridAuftraege.SelectedIndex > 0);
+            SetzeNavigationsButton(ButtonVoriger, DataGridAuftraege.SelectedIndex > 0);
+            SetzeNavigationsButton(ButtonNaechster, DataGridAuftraege.SelectedIndex < DataGridAuftraege.Items.Count - 1);
+            SetzeNavigationsButton(ButtonLetzter, DataGridAuftraege.SelectedIndex < DataGridAuftraege.Items.Count - 1);
 
-            LabelDatensatz.Content = "Datensatz " + (DataGridTabelle.SelectedIndex + 1).ToString() + " von " + DataGridTabelle.Items.Count.ToString();
+            LabelDatensatz.Content = "Datensatz " + (DataGridAuftraege.SelectedIndex + 1).ToString() + " von " + DataGridAuftraege.Items.Count.ToString();
         }
 
         private void ButtonRechnung_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DataGridPositionen_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
         }

@@ -23,11 +23,11 @@
     </Window.Resources>
 
     <StackPanel Orientation="Vertical">
-        <DataGrid Name="DataGridTabelle" Height="400" Margin="20"
+        <DataGrid Name="DataGridAuftraege" Height="400" Margin="20"
             DataContext="{Binding Source={StaticResource AuftraegeSource}}" ItemsSource="{Binding}"
             AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"
-            IsReadOnly="True" HeadersVisibility="Column"
-            SelectedCellsChanged="DataGridTabelle_SelectedCellsChanged" SelectionMode="Single">
+            IsReadOnly="True" HeadersVisibility="Column" SelectedValuePath="AuftragsNr"
+            SelectedCellsChanged="DataGridAuftraege_SelectedCellsChanged" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=AuftragsNr}" Header="Nr" Width="50" ElementStyle="{StaticResource RightAlignedColumn}" />
                 <DataGridTextColumn Binding="{Binding Path=Datum, StringFormat=d, ConverterCulture=de-DE}" Header="Datum" Width="75" />
@@ -40,11 +40,11 @@
             DataContext="{Binding Source={StaticResource PositionenSource}}" ItemsSource="{Binding}"
             AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"
             IsReadOnly="True" HeadersVisibility="Column"
-            SelectedCellsChanged="DataGridTabelle_SelectedCellsChanged" SelectionMode="Single">
+            SelectedCellsChanged="DataGridPositionen_SelectedCellsChanged" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=PositionsNr}" Header="Nr" Width="50" ElementStyle="{StaticResource RightAlignedColumn}" />
                 <DataGridTextColumn Binding="{Binding Path=C_Artikel}" Header="Artikel" Width="150" />
-                <DataGridTextColumn Binding="{Binding Path=Stueckzahl}" Header="Stückzahl" Width="75" />
+                <DataGridTextColumn Binding="{Binding Path=StueckZahl}" Header="Stückzahl" Width="75" />
                 <DataGridTextColumn Binding="{Binding Path=C_Einzelpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Einzelpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
                 <DataGridTextColumn Binding="{Binding Path=C_Gesamtpreis, StringFormat=d, ConverterCulture=de-DE}" Header="Gesamtpreis" Width="75" ElementStyle="{StaticResource RightAlignedColumn}" />
             </DataGrid.Columns>
